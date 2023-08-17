@@ -51,7 +51,7 @@ class _PersistentFooterButtons extends StatelessWidget {
             CupertinoDialogAction(
               child: const Text('削除'),
               onPressed: () {
-                Navigator.of(context).pushReplacementNamed('/list');
+                Navigator.of(context).pop();
               },
             ),
             CupertinoDialogAction(
@@ -368,7 +368,7 @@ class _CountryFieldState extends State<_CountryField> {
             child: Flag.fromCode(
               selectedCountry != null
                   ? FlagsCode.values.byName(selectedCountry!.countryCode)
-                  : FlagsCode.XX,
+                  : FlagsCode.JP,
               height: 70,
             ),
           ),

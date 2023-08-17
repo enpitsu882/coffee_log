@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "862942068538",
+    "project_id": "coffee-log-b5909",
+    "storage_bucket": "coffee-log-b5909.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:862942068538:android:86be320d102703c5931a03",
+        "android_client_info": {
+          "package_name": "com.example.coffee_log"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "862942068538-8ou9kpvbv3klrp1qegmn9r2kfqunieee.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADj6hAtY4QgWnge14KI-o1jw5ws-PYccU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "862942068538-8ou9kpvbv3klrp1qegmn9r2kfqunieee.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
