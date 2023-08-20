@@ -6,6 +6,7 @@ import 'package:coffee_log/screens/start.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterfire_ui/i10n.dart';
 import 'package:window_size/window_size.dart';
 
 import 'firebase_options.dart';
@@ -45,11 +46,17 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'Coffee Log',
       theme: _themeData(),
-      home: const StartScreen(),
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        FlutterFireUILocalizations.delegate,
+      ],
+      supportedLocales: const [Locale('ja')],
       routes: {
         '/auth': (context) => const AuthGate(),
         '/detail': (context) => const DetailScreen(),
       },
+      home: const StartScreen(),
     );
   }
 
