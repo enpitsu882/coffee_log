@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart'
     hide EmailAuthProvider, PhoneAuthProvider;
@@ -10,7 +8,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:window_size/window_size.dart';
 
 import 'app_state.dart';
 import 'firebase_options.dart';
@@ -21,7 +18,6 @@ import 'screens/start.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  setupwindow();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -42,24 +38,6 @@ Future<void> main() async {
     create: (context) => AppState(),
     builder: (context, child) => const App(),
   ));
-}
-
-void setupwindow() {
-  const double windowWidth = 400;
-  const double windowHeight = 700;
-
-  if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
-    WidgetsFlutterBinding.ensureInitialized();
-    setWindowMinSize(const Size(windowWidth, windowHeight));
-    setWindowMaxSize(const Size(windowWidth, windowHeight));
-    getCurrentScreen().then((screen) {
-      setWindowFrame(Rect.fromCenter(
-        center: screen!.frame.center,
-        width: windowWidth,
-        height: windowHeight,
-      ));
-    });
-  }
 }
 
 class App extends StatelessWidget {
