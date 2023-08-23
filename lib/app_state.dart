@@ -1,10 +1,11 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 
 import 'entry.dart';
 
-class AppState {
+class AppState extends ChangeNotifier {
   late final StreamController<List<Entry>> _entriesStreamController;
 
   AppState() {

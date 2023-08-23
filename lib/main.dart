@@ -1,9 +1,6 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:coffee_log/screens/auth.dart';
-import 'package:coffee_log/screens/detail.dart';
-import 'package:coffee_log/screens/start.dart';
 import 'package:firebase_auth/firebase_auth.dart'
     hide EmailAuthProvider, PhoneAuthProvider;
 import 'package:firebase_core/firebase_core.dart';
@@ -12,9 +9,15 @@ import 'package:firebase_ui_localizations/firebase_ui_localizations.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
 import 'package:window_size/window_size.dart';
 
+import 'app_state.dart';
 import 'firebase_options.dart';
+import 'screens/auth.dart';
+import 'screens/detail.dart';
+import 'screens/list.dart';
+import 'screens/start.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,7 +38,10 @@ Future<void> main() async {
     }
   }
 
-  runApp(const App());
+  runApp(ChangeNotifierProvider(
+    create: (context) => AppState(),
+    builder: (context, child) => const App(),
+  ));
 }
 
 void setupwindow() {
@@ -73,6 +79,7 @@ class App extends StatelessWidget {
       supportedLocales: const [Locale('ja')],
       routes: {
         '/auth': (context) => const AuthGate(),
+        '/list': (context) => const ListScreen(),
         '/detail': (context) => const DetailScreen(),
       },
       home: const StartScreen(),
