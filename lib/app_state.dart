@@ -1,20 +1,39 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart'
+    hide EmailAuthProvider, PhoneAuthProvider;
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/foundation.dart';
 
 import 'entry.dart';
+import 'firebase_options.dart';
 
 class AppState extends ChangeNotifier {
   bool _loggedIn = false;
   bool get loggedIn => _loggedIn;
 
-  AppState() {
-    init();
-  }
+  AppState();
 
-  init() {
+  init() async {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+
+    FirebaseUIAuth.configureProviders([
+      EmailAuthProvider(),
+    ]);
+
+    if (kDebugMode) {
+      try {
+        FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8000);
+        await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+      } catch (e) {
+        print(e);
+      }
+    }
+
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
         _loggedIn = true;
