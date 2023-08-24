@@ -7,6 +7,7 @@ import 'package:firebase_ui_localizations/firebase_ui_localizations.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import 'app_state.dart';
@@ -18,9 +19,11 @@ import 'screens/start.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   FirebaseUIAuth.configureProviders([
     EmailAuthProvider(),
   ]);
@@ -34,10 +37,12 @@ Future<void> main() async {
     }
   }
 
-  runApp(ChangeNotifierProvider(
-    create: (context) => AppState(),
-    builder: (context, child) => const App(),
-  ));
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => AppState(),
+      child: const App(),
+    ),
+  );
 }
 
 class App extends StatelessWidget {
@@ -45,7 +50,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Coffee Log',
       theme: _themeData(),
       localizationsDelegates: [
@@ -55,12 +60,7 @@ class App extends StatelessWidget {
         FirebaseUILocalizations.delegate,
       ],
       supportedLocales: const [Locale('ja')],
-      routes: {
-        '/auth': (context) => const AuthGate(),
-        '/list': (context) => const ListScreen(),
-        '/detail': (context) => const DetailScreen(),
-      },
-      home: const StartScreen(),
+      routerConfig: _router(),
     );
   }
 
@@ -80,6 +80,27 @@ class App extends StatelessWidget {
         surface: Color(0xFF721919),
         onSurface: Color(0xFFF3F2F2),
       ),
+    );
+  }
+
+  GoRouter _router() {
+    return GoRouter(
+      routes: [
+        GoRoute(
+          path: '/',
+          builder: (context, state) => const StartScreen(),
+          routes: [
+            GoRoute(
+              path: 'list',
+              builder: (context, state) => const ListScreen(),
+            ),
+            GoRoute(
+              path: 'detail',
+              builder: (context, state) => const DetailScreen(),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

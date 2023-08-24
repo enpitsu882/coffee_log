@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class StartScreen extends StatelessWidget {
   const StartScreen({super.key});
@@ -21,7 +22,7 @@ class StartScreen extends StatelessWidget {
                     color: Theme.of(context).colorScheme.onBackground),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    Navigator.of(context).pushNamed('/auth');
+                    context.pushReplacement('/list');
                   },
               ),
             ),

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flag/flag.dart';
 import 'package:country_picker/country_picker.dart';
+import 'package:go_router/go_router.dart';
 
 class DetailScreen extends StatelessWidget {
   const DetailScreen({super.key});
@@ -51,7 +52,8 @@ class _PersistentFooterButtons extends StatelessWidget {
             CupertinoDialogAction(
               child: const Text('削除'),
               onPressed: () {
-                Navigator.of(context).pop();
+                // TODO: 現在表示しているデータをfirestoreから削除する
+                context.pushReplacement('/list');
               },
             ),
             CupertinoDialogAction(
@@ -67,7 +69,8 @@ class _PersistentFooterButtons extends StatelessWidget {
   }
 
   void _confirm(BuildContext context) {
-    Navigator.of(context).pushReplacementNamed('/list');
+    // TODO: 入力されたデータをfirestoreに上書き保存する
+    context.push('/list');
   }
 
   @override

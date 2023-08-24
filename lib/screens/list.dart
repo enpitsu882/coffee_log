@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class ListScreen extends StatelessWidget {
   const ListScreen({super.key});
@@ -36,7 +37,10 @@ class _FloatingActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      onPressed: () {},
+      onPressed: () {
+        // TODO: 新規作成する
+        context.push('/detail');
+      },
       shape: const CircleBorder(),
       child: const Icon(Icons.add),
     );
@@ -65,7 +69,7 @@ class _ListItem extends StatelessWidget {
       ),
       trailing: const Text('2023/8/7'),
       onTap: () {
-        Navigator.of(context).pushNamed('/detail');
+        context.push('/detail');
       },
       tileColor: count % 2 == 0 ? Theme.of(context).colorScheme.primary : null,
     );
