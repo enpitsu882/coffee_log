@@ -1,31 +1,28 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 
 import 'entry.dart';
 
 class AppState extends ChangeNotifier {
-  late final StreamController<List<Entry>> _entriesStreamController;
+  bool _loggedIn = false;
+  bool get loggedIn => _loggedIn;
 
   AppState() {
-    _entriesStreamController = StreamController.broadcast(
-      onListen: () {
-        _entriesStreamController.add([
-          Entry(
-            date: DateTime.now(),
-            country: 'country',
-            producer: 'producer',
-            roastLevel: 'roastLevel',
-            mesh: 'mesh',
-            processing: 'processing',
-            variety: 'variety',
-            extracting: 'extracting',
-            comment: 'comment',
-          ),
-        ]);
-      },
-    );
+    init();
+  }
+
+  init() {
+    FirebaseAuth.instance.userChanges().listen((user) {
+      if (user != null) {
+        _loggedIn = true;
+      } else {
+        _loggedIn = false;
+      }
+      notifyListeners();
+    });
   }
 
   void writeEntryToFirebase(Entry entry) {
@@ -62,7 +59,7 @@ class AppState extends ChangeNotifier {
         );
       }).toList();
 
-      _entriesStreamController.add(entries);
+      // _entriesStreamController.add(entries);
     });
   }
 }
