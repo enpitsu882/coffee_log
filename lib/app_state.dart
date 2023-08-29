@@ -14,6 +14,10 @@ class AppState extends ChangeNotifier {
   bool _loggedIn = false;
   bool get loggedIn => _loggedIn;
 
+  StreamSubscription<QuerySnapshot>? _entrySubscription;
+  List<Entry> _entries = [];
+  List<Entry> get entries => _entries;
+
   AppState();
 
   init() async {
@@ -37,8 +41,32 @@ class AppState extends ChangeNotifier {
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
         _loggedIn = true;
+        _entrySubscription = FirebaseFirestore.instance
+            .collection('entry')
+            .orderBy('timestamp', descending: true)
+            .snapshots()
+            .listen((snapshot) {
+          _entries = [];
+          for (final document in snapshot.docs) {
+            _entries.add(
+              Entry(
+                date: document.data()['date'] as DateTime,
+                country: document.data()['country'] as String,
+                producer: document.data()['producer'] as String,
+                roastLevel: document.data()['roastLevel'] as String,
+                mesh: document.data()['mesh'] as String,
+                processing: document.data()['processing'] as String,
+                variety: document.data()['variety'] as String,
+                extracting: document.data()['extracting'] as String,
+                comment: document.data()['comment'] as String,
+              ),
+            );
+          }
+        });
       } else {
         _loggedIn = false;
+        _entries = [];
+        _entrySubscription?.cancel();
       }
       notifyListeners();
     });
