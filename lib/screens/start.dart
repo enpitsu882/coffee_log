@@ -22,7 +22,7 @@ class StartScreen extends StatelessWidget {
                     color: Theme.of(context).colorScheme.onBackground),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    context.pushReplacement('/list');
+                    context.pushReplacement('/signin');
                   },
               ),
             ),

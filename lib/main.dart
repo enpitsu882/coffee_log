@@ -1,3 +1,4 @@
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:firebase_ui_localizations/firebase_ui_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -66,6 +67,10 @@ class App extends StatelessWidget {
           builder: (context, state) => const StartScreen(),
           routes: [
             GoRoute(
+              path: 'signin',
+              builder: (context, state) => _signInScreen(),
+            ),
+            GoRoute(
               path: 'list',
               builder: (context, state) => const ListScreen(),
             ),
@@ -75,6 +80,27 @@ class App extends StatelessWidget {
             ),
           ],
         ),
+      ],
+    );
+  }
+
+  SignInScreen _signInScreen() {
+    return SignInScreen(
+      actions: [
+        AuthStateChangeAction((context, state) {
+          final user = switch (state) {
+            SignedIn state => state.user,
+            UserCreated state => state.credential.user,
+            _ => null
+          };
+          if (user == null) {
+            return;
+          }
+          if (state is UserCreated) {
+            user.updateDisplayName(user.email!.split('@')[0]);
+          }
+          context.pushReplacement('/list');
+        }),
       ],
     );
   }
