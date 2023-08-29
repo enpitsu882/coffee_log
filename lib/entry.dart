@@ -1,5 +1,5 @@
 class Entry {
-  final DateTime date;
+  final String date;
   final String country;
   final String producer;
   final String roastLevel;
