@@ -18,8 +18,8 @@ class AppState extends ChangeNotifier {
   User? get user => _user;
 
   StreamSubscription<QuerySnapshot>? _entrySubscription;
-  List<Entry> _entries = [];
-  List<Entry> get entries => _entries;
+  Map<String, Entry> _entries = {};
+  Map<String, Entry> get entries => _entries;
 
   AppState() {
     init();
@@ -40,56 +40,58 @@ class AppState extends ChangeNotifier {
         _loggedIn = true;
         _entrySubscription = FirebaseFirestore.instance
             .collection('users')
-            .doc(user!.uid.toString())
+            .doc(user.uid.toString())
             .collection('entries')
             .snapshots()
             .listen((snapshot) {
-          _entries = [];
+          _entries = {};
           for (final document in snapshot.docs) {
-            _entries.add(
-              Entry(
-                date: document.data()['date'] as String,
-                country: document.data()['country'] as String,
-                producer: document.data()['producer'] as String,
-                roastLevel: document.data()['roastLevel'] as String,
-                mesh: document.data()['mesh'] as String,
-                processing: document.data()['processing'] as String,
-                variety: document.data()['variety'] as String,
-                extracting: document.data()['extracting'] as String,
-                comment: document.data()['comment'] as String,
-              ),
+            _entries[document.id] = Entry(
+              date: document.data()['date'] as String,
+              country: document.data()['country'] as String,
+              producer: document.data()['producer'] as String,
+              roastLevel: document.data()['roastLevel'] as String,
+              mesh: document.data()['mesh'] as String,
+              processing: document.data()['processing'] as String,
+              variety: document.data()['variety'] as String,
+              extracting: document.data()['extracting'] as String,
+              comment: document.data()['comment'] as String,
             );
           }
         });
       } else {
         _loggedIn = false;
-        _entries = [];
+        _entries = {};
         _entrySubscription?.cancel();
       }
       notifyListeners();
     });
   }
 
-  Future<DocumentReference> addEntry() {
+  Future<String> addEntry() async {
     if (!_loggedIn) {
       throw Exception('Must be logged in');
     }
 
-    return FirebaseFirestore.instance
+    final entries = FirebaseFirestore.instance
         .collection('users')
         .doc(user!.uid.toString())
-        .collection('entries')
-        .add(<String, dynamic>{
+        .collection('entries');
+    final docId = entries.doc().id;
+
+    entries.doc(docId).set(<String, dynamic>{
       'date':
           '${DateTime.now().year}/${DateTime.now().month}/${DateTime.now().day}',
       'country': 'コスタリカ',
       'producer': 'ラスマルガリタス',
       'roastLevel': '中煎り',
       'mesh': '細挽き',
-      'processing': '',
+      'processing': 'ハニー',
       'variety': 'ミレニオ',
       'extracting': 'ドリップ（V60）',
       'comment': 'メモ欄',
     });
+
+    return docId;
   }
 }
