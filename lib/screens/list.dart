@@ -26,9 +26,6 @@ class ListScreen extends StatelessWidget {
           );
         },
       ),
-      // body: ListView(
-      //   children: [for (int i = 0; i < 20; i++) _ListItem(count: i)],
-      // ),
     );
   }
 }
@@ -57,7 +54,7 @@ class _FloatingActionButton extends StatelessWidget {
       onPressed: () async {
         String entryId =
             await Provider.of<AppState>(context, listen: false).addEntry();
-        if (context.mounted) context.push('/detail');
+        if (context.mounted) context.go('/detail');
       },
       shape: const CircleBorder(),
       child: const Icon(Icons.add),
@@ -97,7 +94,7 @@ class _ListItem extends StatelessWidget {
       trailing: const Text('2023/8/7'),
       onTap: () {
         // TODO: entryIdで飛ぶ
-        context.push('/detail');
+        context.go('/detail');
       },
       tileColor:
           listCount % 2 == 0 ? Theme.of(context).colorScheme.primary : null,

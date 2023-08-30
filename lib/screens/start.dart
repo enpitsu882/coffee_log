@@ -35,9 +35,9 @@ class StartScreen extends StatelessWidget {
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
                           if (appState.loggedIn) {
-                            context.pushReplacement('/list');
+                            context.go('/list');
                           } else {
-                            context.pushReplacement('/signin');
+                            context.go('/signin');
                           }
                         },
                     ),

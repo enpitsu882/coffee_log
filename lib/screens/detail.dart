@@ -53,7 +53,7 @@ class _PersistentFooterButtons extends StatelessWidget {
               child: const Text('削除'),
               onPressed: () {
                 // TODO: 現在表示しているデータをfirestoreから削除する
-                context.pushReplacement('/list');
+                context.go('/list');
               },
             ),
             CupertinoDialogAction(
@@ -70,7 +70,7 @@ class _PersistentFooterButtons extends StatelessWidget {
 
   void _confirm(BuildContext context) {
     // TODO: 入力されたデータをfirestoreに上書き保存する
-    context.push('/list');
+    context.go('/list');
   }
 
   @override

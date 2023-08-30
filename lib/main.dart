@@ -97,7 +97,7 @@ class App extends StatelessWidget {
           if (state is UserCreated) {
             user.updateDisplayName(user.email!.split('@')[0]);
           }
-          context.pushReplacement('/list');
+          context.go('/list');
         }),
       ],
     );
