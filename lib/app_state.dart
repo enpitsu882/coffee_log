@@ -14,11 +14,16 @@ class AppState extends ChangeNotifier {
   bool _loggedIn = false;
   bool get loggedIn => _loggedIn;
 
+  User? _user;
+  User? get user => _user;
+
   StreamSubscription<QuerySnapshot>? _entrySubscription;
   List<Entry> _entries = [];
   List<Entry> get entries => _entries;
 
-  AppState();
+  AppState() {
+    init();
+  }
 
   init() async {
     await Firebase.initializeApp(
@@ -29,28 +34,21 @@ class AppState extends ChangeNotifier {
       EmailAuthProvider(),
     ]);
 
-    if (kDebugMode) {
-      try {
-        FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8000);
-        await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
-      } catch (e) {
-        print(e);
-      }
-    }
-
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
+        _user = user;
         _loggedIn = true;
         _entrySubscription = FirebaseFirestore.instance
-            .collection('entry')
-            .orderBy('timestamp', descending: true)
+            .collection('users')
+            .doc(user!.uid.toString())
+            .collection('entries')
             .snapshots()
             .listen((snapshot) {
           _entries = [];
           for (final document in snapshot.docs) {
             _entries.add(
               Entry(
-                date: document.data()['date'] as DateTime,
+                date: document.data()['date'] as String,
                 country: document.data()['country'] as String,
                 producer: document.data()['producer'] as String,
                 roastLevel: document.data()['roastLevel'] as String,
@@ -72,41 +70,26 @@ class AppState extends ChangeNotifier {
     });
   }
 
-  void writeEntryToFirebase(Entry entry) {
-    FirebaseFirestore.instance.collection('Entries').add({
-      'date': entry.date,
-      'country': entry.country,
-      'producer': entry.producer,
-      'roastLevel': entry.roastLevel,
-      'mesh': entry.mesh,
-      'processing': entry.processing,
-      'variety': entry.variety,
-      'extracting': entry.extracting,
-      'comment': entry.comment,
-    });
-  }
+  Future<DocumentReference> addEntry() {
+    if (!_loggedIn) {
+      throw Exception('Must be logged in');
+    }
 
-  Future<void> _listenForEntries() async {
-    FirebaseFirestore.instance
-        .collection('Entries')
-        .snapshots()
-        .listen((event) {
-      final entries = event.docs.map((doc) {
-        final data = doc.data();
-        return Entry(
-          date: data['date'] as DateTime,
-          country: data['country'] as String,
-          producer: data['producer'] as String,
-          roastLevel: data['roastLevel'] as String,
-          mesh: data['mesh'] as String,
-          processing: data['processing'] as String,
-          variety: data['variety'] as String,
-          extracting: data['extracting'] as String,
-          comment: data['comment'] as String,
-        );
-      }).toList();
-
-      // _entriesStreamController.add(entries);
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.uid.toString())
+        .collection('entries')
+        .add(<String, dynamic>{
+      'date':
+          '${DateTime.now().year}/${DateTime.now().month}/${DateTime.now().day}',
+      'country': 'コスタリカ',
+      'producer': 'ラスマルガリタス',
+      'roastLevel': '中煎り',
+      'mesh': '細挽き',
+      'processing': '',
+      'variety': 'ミレニオ',
+      'extracting': 'ドリップ（V60）',
+      'comment': 'メモ欄',
     });
   }
 }

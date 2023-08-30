@@ -11,8 +11,6 @@ import 'screens/list.dart';
 import 'screens/start.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  AppState().init();
   runApp(
     ChangeNotifierProvider(
       create: (_) => AppState(),
