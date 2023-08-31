@@ -17,8 +17,9 @@ class ListScreen extends StatelessWidget {
         builder: (context, appState, _) {
           List<Widget> children = [];
           var listCount = 0;
-          appState.entries.forEach((id, entry) {
-            children.add(_ListItem(id: id, entry: entry, listCount: listCount));
+          appState.entries.forEach((entryId, entry) {
+            children.add(_ListItem(
+                entryId: entryId, entry: entry, listCount: listCount));
             listCount++;
           });
           return ListView(
@@ -54,7 +55,7 @@ class _FloatingActionButton extends StatelessWidget {
       onPressed: () async {
         String entryId =
             await Provider.of<AppState>(context, listen: false).addEntry();
-        if (context.mounted) context.go('/detail');
+        if (context.mounted) context.go('/detail/$entryId');
       },
       shape: const CircleBorder(),
       child: const Icon(Icons.add),
@@ -64,12 +65,12 @@ class _FloatingActionButton extends StatelessWidget {
 
 class _ListItem extends StatelessWidget {
   const _ListItem({
-    required this.id,
+    required this.entryId,
     required this.entry,
     required this.listCount,
   });
 
-  final String id;
+  final String entryId;
   final Entry entry;
   final int listCount;
 
@@ -94,7 +95,7 @@ class _ListItem extends StatelessWidget {
       trailing: const Text('2023/8/7'),
       onTap: () {
         // TODO: entryIdで飛ぶ
-        context.go('/detail');
+        context.go('/detail$entryId');
       },
       tileColor:
           listCount % 2 == 0 ? Theme.of(context).colorScheme.primary : null,

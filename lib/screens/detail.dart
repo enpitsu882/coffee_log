@@ -5,7 +5,11 @@ import 'package:country_picker/country_picker.dart';
 import 'package:go_router/go_router.dart';
 
 class DetailScreen extends StatelessWidget {
-  const DetailScreen({super.key});
+  const DetailScreen({
+    super.key,
+    required this.entryId,
+  });
+  final String entryId;
 
   @override
   Widget build(BuildContext context) {

@@ -73,8 +73,18 @@ class App extends StatelessWidget {
               builder: (context, state) => const ListScreen(),
             ),
             GoRoute(
-              path: 'detail',
-              builder: (context, state) => const DetailScreen(),
+              path: 'detail/:entryId',
+              builder: (context, state) {
+                String? params = state.pathParameters['entryId'];
+                if (params == null) {
+                  return Scaffold(
+                    appBar: AppBar(
+                      title: const Text('ページが見つかりません'),
+                    ),
+                  );
+                }
+                return DetailScreen(entryId: params);
+              },
             ),
           ],
         ),
