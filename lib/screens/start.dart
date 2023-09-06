@@ -23,7 +23,7 @@ class StartScreen extends StatelessWidget {
             Consumer<AppState>(
               builder: (context, appState, _) => Column(
                 children: [
-                  if (appState.loggedIn) ...[
+                  if (appState.user != null) ...[
                     const Text('ようこそ'),
                   ],
                   RichText(
@@ -34,7 +34,7 @@ class StartScreen extends StatelessWidget {
                       ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
-                          if (appState.loggedIn) {
+                          if (appState.user != null) {
                             context.go('/list');
                           } else {
                             context.go('/signin');

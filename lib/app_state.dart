@@ -11,15 +11,12 @@ import 'entry.dart';
 import 'firebase_options.dart';
 
 class AppState extends ChangeNotifier {
-  bool _loggedIn = false;
-  bool get loggedIn => _loggedIn;
-
   User? _user;
   User? get user => _user;
 
   StreamSubscription<QuerySnapshot>? _entrySubscription;
-  Map<String, Entry> _entries = {};
-  Map<String, Entry> get entries => _entries;
+  List<Entry> _entries = [];
+  List<Entry> get entries => _entries;
 
   AppState() {
     init();
@@ -37,16 +34,15 @@ class AppState extends ChangeNotifier {
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
         _user = user;
-        _loggedIn = true;
         _entrySubscription = FirebaseFirestore.instance
             .collection('users')
             .doc(user.uid.toString())
             .collection('entries')
             .snapshots()
             .listen((snapshot) {
-          _entries = {};
+          _entries = [];
           for (final document in snapshot.docs) {
-            _entries[document.id] = Entry(
+            _entries.add(Entry(
               date: document.data()['date'] as String,
               country: document.data()['country'] as String,
               producer: document.data()['producer'] as String,
@@ -56,12 +52,14 @@ class AppState extends ChangeNotifier {
               variety: document.data()['variety'] as String,
               extracting: document.data()['extracting'] as String,
               comment: document.data()['comment'] as String,
-            );
+              id: document.data()['id'] as String,
+            ));
           }
+          notifyListeners();
         });
       } else {
-        _loggedIn = false;
-        _entries = {};
+        _user = null;
+        _entries = [];
         _entrySubscription?.cancel();
       }
       notifyListeners();
@@ -69,7 +67,7 @@ class AppState extends ChangeNotifier {
   }
 
   Future<String> addEntry() async {
-    if (!_loggedIn) {
+    if (_user == null) {
       throw Exception('Must be logged in');
     }
 
@@ -77,7 +75,8 @@ class AppState extends ChangeNotifier {
         .collection('users')
         .doc(user!.uid.toString())
         .collection('entries');
-    final docId = entries.doc().id;
+    // ドキュメント id を自動生成
+    final String docId = entries.doc().id;
 
     entries.doc(docId).set(<String, dynamic>{
       'date':
@@ -90,6 +89,7 @@ class AppState extends ChangeNotifier {
       'variety': 'ミレニオ',
       'extracting': 'ドリップ（V60）',
       'comment': 'メモ欄',
+      'id': docId,
     });
 
     return docId;
