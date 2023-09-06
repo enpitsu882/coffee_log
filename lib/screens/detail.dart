@@ -375,12 +375,12 @@ class _CountryFieldState extends State<_CountryField> {
             child: Flag.fromCode(
               selectedCountry != null
                   ? FlagsCode.values.byName(selectedCountry!.countryCode)
-                  : FlagsCode.JP,
+                  : FlagsCode.XX,
               height: 70,
             ),
           ),
           Text(
-            selectedCountry?.name ?? 'Unknown',
+            selectedCountry?.nameLocalized ?? 'Unknown',
             style: TextStyle(
                 fontSize: 16, color: Theme.of(context).colorScheme.onPrimary),
           ),
@@ -418,37 +418,39 @@ class _DateFieldState extends State<_DateField> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-        child: _CardWidget(
-      title: 'Date',
-      height: 160,
-      content: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 12),
-            child: Text(
-              '${selectedDate.year}',
-              style: const TextStyle(fontSize: 16, color: Color(0xFFCBCBCB)),
+      child: _CardWidget(
+        title: 'Date',
+        height: 160,
+        content: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 12),
+              child: Text(
+                '${selectedDate.year}',
+                style: const TextStyle(fontSize: 16, color: Color(0xFFCBCBCB)),
+              ),
             ),
-          ),
-          Text(
-            '${selectedDate.month}/${selectedDate.day}',
-            style: TextStyle(
-                fontSize: 54,
-                color: Theme.of(context).colorScheme.onPrimary,
-                height: 1.2),
-          ),
-        ],
+            Text(
+              '${selectedDate.month}/${selectedDate.day}',
+              style: TextStyle(
+                  fontSize: 54,
+                  color: Theme.of(context).colorScheme.onPrimary,
+                  height: 1.2),
+            ),
+          ],
+        ),
+        onTap: () => _selectDate(context),
       ),
-      onTap: () => _selectDate(context),
-    ));
+    );
   }
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(2020),
-        lastDate: DateTime(2025));
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2025),
+    );
 
     if (picked != null) {
       setState(() {

@@ -1,3 +1,4 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:firebase_ui_localizations/firebase_ui_localizations.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,7 @@ class App extends StatelessWidget {
       title: 'Coffee Log',
       theme: _themeData(),
       localizationsDelegates: [
+        CountryLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
@@ -69,10 +71,18 @@ class App extends StatelessWidget {
               builder: (context, state) => _signInScreen(),
             ),
             GoRoute(
+              // redirect: (context, state) =>
+              //     Provider.of<AppState>(context, listen: false).user == null
+              //         ? '/'
+              //         : null,
               path: 'list',
               builder: (context, state) => const ListScreen(),
             ),
             GoRoute(
+              // redirect: (context, state) =>
+              //     Provider.of<AppState>(context, listen: false).user == null
+              //         ? '/'
+              //         : null,
               path: 'detail/:entryId',
               builder: (context, state) {
                 String? params = state.pathParameters['entryId'];
