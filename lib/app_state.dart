@@ -15,8 +15,8 @@ class AppState extends ChangeNotifier {
   User? get user => _user;
 
   StreamSubscription<QuerySnapshot>? _entrySubscription;
-  List<Entry> _entries = [];
-  List<Entry> get entries => _entries;
+  Map<String, Entry> _entries = {};
+  Map<String, Entry> get entries => _entries;
 
   AppState() {
     init();
@@ -40,9 +40,9 @@ class AppState extends ChangeNotifier {
             .collection('entries')
             .snapshots()
             .listen((snapshot) {
-          _entries = [];
+          _entries = {};
           for (final document in snapshot.docs) {
-            _entries.add(Entry(
+            _entries[document.id] = Entry(
               date: document.data()['date'] as String,
               country: document.data()['country'] as String,
               producer: document.data()['producer'] as String,
@@ -52,14 +52,13 @@ class AppState extends ChangeNotifier {
               variety: document.data()['variety'] as String,
               extracting: document.data()['extracting'] as String,
               comment: document.data()['comment'] as String,
-              id: document.data()['id'] as String,
-            ));
+            );
           }
           notifyListeners();
         });
       } else {
         _user = null;
-        _entries = [];
+        _entries = {};
         _entrySubscription?.cancel();
       }
       notifyListeners();
@@ -81,15 +80,14 @@ class AppState extends ChangeNotifier {
     entries.doc(docId).set(<String, dynamic>{
       'date':
           '${DateTime.now().year}/${DateTime.now().month}/${DateTime.now().day}',
-      'country': 'コスタリカ',
-      'producer': 'ラスマルガリタス',
-      'roastLevel': '中煎り',
-      'mesh': '細挽き',
-      'processing': 'ハニー',
-      'variety': 'ミレニオ',
-      'extracting': 'ドリップ（V60）',
-      'comment': 'メモ欄',
-      'id': docId,
+      'country': '未選択',
+      'producer': '未選択',
+      'roastLevel': '未選択',
+      'mesh': '未選択',
+      'processing': '未選択',
+      'variety': '未選択',
+      'extracting': '未選択',
+      'comment': '',
     });
 
     return docId;

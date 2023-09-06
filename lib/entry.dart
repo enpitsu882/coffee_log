@@ -8,7 +8,6 @@ class Entry {
   final String variety;
   final String extracting;
   final String comment;
-  final String id;
 
   Entry({
     required this.date,
@@ -20,6 +19,5 @@ class Entry {
     required this.variety,
     required this.extracting,
     required this.comment,
-    required this.id,
   });
 }
