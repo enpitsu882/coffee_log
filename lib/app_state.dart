@@ -74,6 +74,7 @@ class AppState extends ChangeNotifier {
         .collection('users')
         .doc(user!.uid.toString())
         .collection('entries');
+
     // ドキュメント id を自動生成
     final String docId = entries.doc().id;
 
@@ -91,5 +92,18 @@ class AppState extends ChangeNotifier {
     });
 
     return docId;
+  }
+
+  Future<void> deleteEntry(String docId) async {
+    if (_user == null) {
+      throw Exception('Must be logged in');
+    }
+
+    final entries = FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.uid.toString())
+        .collection('entries');
+
+    entries.doc(docId).delete();
   }
 }

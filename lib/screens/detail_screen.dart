@@ -27,11 +27,9 @@ class DetailScreen extends StatelessWidget {
           );
         }
 
-        // appState.setSelectedProducer = appState.entries[entryId]!.producer;
-
-        return const Scaffold(
-          persistentFooterButtons: [_PersistentFooterButtons()],
-          body: SafeArea(
+        return Scaffold(
+          persistentFooterButtons: [_PersistentFooterButtons(entryId: entryId)],
+          body: const SafeArea(
             child: SingleChildScrollView(
               child: Padding(
                 padding: EdgeInsets.all(5),
@@ -62,7 +60,9 @@ class DetailScreen extends StatelessWidget {
 }
 
 class _PersistentFooterButtons extends StatelessWidget {
-  const _PersistentFooterButtons();
+  const _PersistentFooterButtons({required this.entryId});
+
+  final String entryId;
 
   void _delete(BuildContext context) {
     showDialog(
@@ -73,9 +73,10 @@ class _PersistentFooterButtons extends StatelessWidget {
           actions: [
             TextButton(
               child: const Text('削除'),
-              onPressed: () {
-                // TODO: 現在表示しているデータをfirestoreから削除する
-                context.go('/list');
+              onPressed: () async {
+                await Provider.of<AppState>(context, listen: false)
+                    .deleteEntry(entryId);
+                if (context.mounted) context.go('/list');
               },
             ),
             TextButton(
