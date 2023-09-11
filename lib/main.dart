@@ -7,9 +7,9 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import 'app_state.dart';
-import 'screens/detail.dart';
-import 'screens/list.dart';
-import 'screens/start.dart';
+import 'screens/detail_screen.dart';
+import 'screens/list_screen.dart';
+import 'screens/start_screen.dart';
 
 Future<void> main() async {
   runApp(
@@ -71,18 +71,10 @@ class App extends StatelessWidget {
               builder: (context, state) => _signInScreen(),
             ),
             GoRoute(
-              // redirect: (context, state) =>
-              //     Provider.of<AppState>(context, listen: false).user == null
-              //         ? '/'
-              //         : null,
               path: 'list',
               builder: (context, state) => const ListScreen(),
             ),
             GoRoute(
-              // redirect: (context, state) =>
-              //     Provider.of<AppState>(context, listen: false).user == null
-              //         ? '/'
-              //         : null,
               path: 'detail/:entryId',
               builder: (context, state) {
                 String? params = state.pathParameters['entryId'];
