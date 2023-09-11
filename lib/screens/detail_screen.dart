@@ -4,16 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../app_state.dart';
 import '../entry.dart';
-import 'detail_widgets/comment_field.dart';
-import 'detail_widgets/country_field.dart';
-import 'detail_widgets/date_field.dart';
-import 'detail_widgets/extracting_field.dart';
-import 'detail_widgets/mesh_field.dart';
-import 'detail_widgets/name_field.dart';
-import 'detail_widgets/processing_field.dart';
-import 'detail_widgets/producer_field.dart';
-import 'detail_widgets/roast_level_field.dart';
-import 'detail_widgets/variety_field.dart';
+import 'detail_widgets/barrel.dart';
 
 class DetailScreen extends StatelessWidget {
   const DetailScreen({
