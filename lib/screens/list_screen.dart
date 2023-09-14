@@ -84,7 +84,7 @@ class _ListItem extends StatelessWidget {
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(entry.country),
+          Text(entry.countryName),
           Wrap(
             spacing: 12,
             children: [

@@ -1,6 +1,7 @@
 class Entry {
   final String date;
-  final String country;
+  final String countryName;
+  final String countryCode;
   final String producer;
   final String roastLevel;
   final String mesh;
@@ -11,7 +12,8 @@ class Entry {
 
   Entry({
     required this.date,
-    required this.country,
+    required this.countryName,
+    required this.countryCode,
     required this.producer,
     required this.roastLevel,
     required this.mesh,
