@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 
 import 'card_widget.dart';
 
-class DateField extends StatefulWidget {
-  const DateField({super.key});
+class DateField extends StatelessWidget {
+  const DateField({
+    super.key,
+    required this.selectedDate,
+    required this.selectDate,
+    required this.entryDate,
+  });
 
-  @override
-  State<DateField> createState() => DateFieldState();
-}
-
-class DateFieldState extends State<DateField> {
-  DateTime selectedDate = DateTime.now();
+  final DateTime? selectedDate;
+  final Function selectDate;
+  final String entryDate;
 
   @override
   Widget build(BuildContext context) {
@@ -23,12 +25,16 @@ class DateFieldState extends State<DateField> {
             Padding(
               padding: const EdgeInsets.only(top: 12),
               child: Text(
-                '${selectedDate.year}',
+                selectedDate != null
+                    ? selectedDate!.year.toString()
+                    : entryDate.split('/')[0],
                 style: const TextStyle(fontSize: 16, color: Color(0xFFCBCBCB)),
               ),
             ),
             Text(
-              '${selectedDate.month}/${selectedDate.day}',
+              selectedDate != null
+                  ? '${selectedDate!.month}/${selectedDate!.day}'
+                  : '${entryDate.split('/')[1]}/${entryDate.split('/')[2]}',
               style: TextStyle(
                   fontSize: 54,
                   color: Theme.of(context).colorScheme.onPrimary,
@@ -36,23 +42,8 @@ class DateFieldState extends State<DateField> {
             ),
           ],
         ),
-        onTap: () => _selectDate(context),
+        onTap: () => selectDate(context),
       ),
     );
-  }
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(2020),
-      lastDate: DateTime(2025),
-    );
-
-    if (picked != null) {
-      setState(() {
-        selectedDate = picked;
-      });
-    }
   }
 }

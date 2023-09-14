@@ -95,7 +95,7 @@ class _ListItem extends StatelessWidget {
           ),
         ],
       ),
-      trailing: const Text('2023/8/7'),
+      trailing: Text(entry.date),
       onTap: () {
         context.go('/detail/$entryId');
       },

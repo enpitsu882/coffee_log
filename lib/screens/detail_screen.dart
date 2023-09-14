@@ -21,6 +21,7 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
+  DateTime? selectedDate;
   Country? selectedCountry;
   late TextEditingController producerController =
       TextEditingController(text: widget.entry.producer);
@@ -36,6 +37,21 @@ class _DetailScreenState extends State<DetailScreen> {
       TextEditingController(text: widget.entry.extracting);
   late TextEditingController commentController =
       TextEditingController(text: widget.entry.comment);
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2025),
+    );
+
+    if (picked != null) {
+      setState(() {
+        selectedDate = picked;
+      });
+    }
+  }
 
   Future<void> _selectCountry(BuildContext context) async {
     showCountryPicker(
@@ -80,7 +96,9 @@ class _DetailScreenState extends State<DetailScreen> {
 
   Future<void> _confirm(BuildContext context) async {
     Entry entry = Entry(
-      date: widget.entry.date,
+      date: selectedDate != null
+          ? '${selectedDate!.year}/${selectedDate!.month}/${selectedDate!.day}'
+          : widget.entry.date,
       countryName: selectedCountry?.nameLocalized ?? widget.entry.countryName,
       countryCode: selectedCountry?.countryCode ?? widget.entry.countryCode,
       producer: producerController.text != ''
@@ -127,7 +145,11 @@ class _DetailScreenState extends State<DetailScreen> {
                   NameField(),
                   Row(
                     children: [
-                      DateField(),
+                      DateField(
+                        selectedDate: selectedDate,
+                        selectDate: _selectDate,
+                        entryDate: widget.entry.date,
+                      ),
                       CountryField(
                         selectedCountry: selectedCountry,
                         selectCountry: _selectCountry,
