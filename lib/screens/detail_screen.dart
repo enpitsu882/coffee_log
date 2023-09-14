@@ -1,3 +1,4 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +21,7 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
+  Country? selectedCountry;
   late TextEditingController producerController =
       TextEditingController(text: widget.entry.producer);
   late TextEditingController roastLevelController =
@@ -34,6 +36,20 @@ class _DetailScreenState extends State<DetailScreen> {
       TextEditingController(text: widget.entry.extracting);
   late TextEditingController commentController =
       TextEditingController(text: widget.entry.comment);
+
+  Future<void> _selectCountry(BuildContext context) async {
+    showCountryPicker(
+      context: context,
+      countryListTheme: const CountryListThemeData(
+        bottomSheetHeight: 500,
+      ),
+      onSelect: (Country country) {
+        setState(() {
+          selectedCountry = country;
+        });
+      },
+    );
+  }
 
   void _delete(BuildContext context) {
     showDialog(
@@ -65,7 +81,8 @@ class _DetailScreenState extends State<DetailScreen> {
   Future<void> _confirm(BuildContext context) async {
     Entry entry = Entry(
       date: widget.entry.date,
-      country: widget.entry.country,
+      countryName: selectedCountry?.nameLocalized ?? widget.entry.countryName,
+      countryCode: selectedCountry?.countryCode ?? widget.entry.countryCode,
       producer: producerController.text != ''
           ? producerController.text
           : widget.entry.producer,
@@ -109,7 +126,15 @@ class _DetailScreenState extends State<DetailScreen> {
                 children: [
                   NameField(),
                   Row(
-                    children: [DateField(), CountryField()],
+                    children: [
+                      DateField(),
+                      CountryField(
+                        selectedCountry: selectedCountry,
+                        selectCountry: _selectCountry,
+                        countryName: widget.entry.countryName,
+                        countryCode: widget.entry.countryCode,
+                      ),
+                    ],
                   ),
                   ProducerField(controller: producerController),
                   Row(

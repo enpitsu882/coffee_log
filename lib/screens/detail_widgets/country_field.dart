@@ -5,15 +5,24 @@ import 'package:flutter/material.dart';
 import 'card_widget.dart';
 
 class CountryField extends StatefulWidget {
-  const CountryField({super.key});
+  const CountryField({
+    super.key,
+    required this.selectedCountry,
+    required this.selectCountry,
+    required this.countryName,
+    required this.countryCode,
+  });
+
+  final Country? selectedCountry;
+  final Function selectCountry;
+  final String countryName;
+  final String countryCode;
 
   @override
   State<CountryField> createState() => CountryFieldState();
 }
 
 class CountryFieldState extends State<CountryField> {
-  Country? selectedCountry;
-
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -25,34 +34,19 @@ class CountryFieldState extends State<CountryField> {
           Padding(
             padding: const EdgeInsets.only(top: 10, bottom: 5),
             child: Flag.fromCode(
-              selectedCountry != null
-                  ? FlagsCode.values.byName(selectedCountry!.countryCode)
-                  : FlagsCode.XX,
+              FlagsCode.values.byName(
+                  widget.selectedCountry?.countryCode ?? widget.countryCode),
               height: 70,
             ),
           ),
           Text(
-            selectedCountry?.nameLocalized ?? '未選択',
+            widget.selectedCountry?.nameLocalized ?? widget.countryName,
             style: TextStyle(
                 fontSize: 16, color: Theme.of(context).colorScheme.onPrimary),
           ),
         ],
       ),
-      onTap: () => _selectCountry(context),
+      onTap: () => widget.selectCountry(context),
     ));
-  }
-
-  Future<void> _selectCountry(BuildContext context) async {
-    showCountryPicker(
-      context: context,
-      countryListTheme: const CountryListThemeData(
-        bottomSheetHeight: 500,
-      ),
-      onSelect: (Country country) {
-        setState(() {
-          selectedCountry = country;
-        });
-      },
-    );
   }
 }
