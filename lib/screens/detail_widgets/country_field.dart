@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'card_widget.dart';
 
-class CountryField extends StatefulWidget {
+class CountryField extends StatelessWidget {
   const CountryField({
     super.key,
     required this.selectedCountry,
@@ -19,11 +19,6 @@ class CountryField extends StatefulWidget {
   final String countryCode;
 
   @override
-  State<CountryField> createState() => CountryFieldState();
-}
-
-class CountryFieldState extends State<CountryField> {
-  @override
   Widget build(BuildContext context) {
     return Expanded(
         child: CardWidget(
@@ -34,19 +29,19 @@ class CountryFieldState extends State<CountryField> {
           Padding(
             padding: const EdgeInsets.only(top: 10, bottom: 5),
             child: Flag.fromCode(
-              FlagsCode.values.byName(
-                  widget.selectedCountry?.countryCode ?? widget.countryCode),
+              FlagsCode.values
+                  .byName(selectedCountry?.countryCode ?? countryCode),
               height: 70,
             ),
           ),
           Text(
-            widget.selectedCountry?.nameLocalized ?? widget.countryName,
+            selectedCountry?.nameLocalized ?? countryName,
             style: TextStyle(
                 fontSize: 16, color: Theme.of(context).colorScheme.onPrimary),
           ),
         ],
       ),
-      onTap: () => widget.selectCountry(context),
+      onTap: () => selectCountry(context),
     ));
   }
 }
