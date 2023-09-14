@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 import 'card_widget.dart';
 
 class VarietyField extends StatelessWidget {
-  const VarietyField({super.key});
+  const VarietyField({
+    super.key,
+    required this.controller,
+  });
+
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -14,11 +19,15 @@ class VarietyField extends StatelessWidget {
       content: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 25),
-            child: Text(
-              'ミレニオ',
+            padding: const EdgeInsets.only(top: 20),
+            child: TextFormField(
+              controller: controller,
               style: TextStyle(
-                  fontSize: 20, color: Theme.of(context).colorScheme.onPrimary),
+                fontSize: 20,
+                color: Theme.of(context).colorScheme.onPrimary,
+              ),
+              textAlign: TextAlign.center,
+              decoration: const InputDecoration(border: InputBorder.none),
             ),
           ),
         ],

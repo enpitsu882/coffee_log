@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 import 'card_widget.dart';
 
 class ExtractingField extends StatelessWidget {
-  const ExtractingField({super.key});
+  const ExtractingField({
+    super.key,
+    required this.controller,
+  });
+
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -12,14 +17,14 @@ class ExtractingField extends StatelessWidget {
       child: CardWidget(
         title: 'Extracting',
         height: 110,
-        content: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Text(
-            'ドリップ（V60）',
-            style: TextStyle(
-                fontSize: 24, color: Theme.of(context).colorScheme.onPrimary),
-            textAlign: TextAlign.center,
+        content: TextFormField(
+          controller: controller,
+          style: TextStyle(
+            fontSize: 24,
+            color: Theme.of(context).colorScheme.onPrimary,
           ),
+          textAlign: TextAlign.center,
+          decoration: const InputDecoration(border: InputBorder.none),
         ),
         onTap: () {},
       ),
