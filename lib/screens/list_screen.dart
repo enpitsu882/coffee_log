@@ -95,7 +95,8 @@ class _ListItem extends StatelessWidget {
           ),
         ],
       ),
-      trailing: Text(entry.date),
+      trailing:
+          Text('${entry.date.year}/${entry.date.month}/${entry.date.day}'),
       onTap: () {
         context.go('/detail/$entryId');
       },

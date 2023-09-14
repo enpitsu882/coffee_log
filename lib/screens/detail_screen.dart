@@ -96,9 +96,7 @@ class _DetailScreenState extends State<DetailScreen> {
 
   Future<void> _confirm(BuildContext context) async {
     Entry entry = Entry(
-      date: selectedDate != null
-          ? '${selectedDate!.year}/${selectedDate!.month}/${selectedDate!.day}'
-          : widget.entry.date,
+      date: selectedDate ?? widget.entry.date,
       countryName: selectedCountry?.nameLocalized ?? widget.entry.countryName,
       countryCode: selectedCountry?.countryCode ?? widget.entry.countryCode,
       producer: producerController.text != ''

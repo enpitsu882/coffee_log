@@ -12,7 +12,7 @@ class DateField extends StatelessWidget {
 
   final DateTime? selectedDate;
   final Function selectDate;
-  final String entryDate;
+  final DateTime entryDate;
 
   @override
   Widget build(BuildContext context) {
@@ -27,14 +27,14 @@ class DateField extends StatelessWidget {
               child: Text(
                 selectedDate != null
                     ? selectedDate!.year.toString()
-                    : entryDate.split('/')[0],
+                    : entryDate.year.toString(),
                 style: const TextStyle(fontSize: 16, color: Color(0xFFCBCBCB)),
               ),
             ),
             Text(
               selectedDate != null
                   ? '${selectedDate!.month}/${selectedDate!.day}'
-                  : '${entryDate.split('/')[1]}/${entryDate.split('/')[2]}',
+                  : '${entryDate.month}/${entryDate.day}',
               style: TextStyle(
                   fontSize: 54,
                   color: Theme.of(context).colorScheme.onPrimary,

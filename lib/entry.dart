@@ -1,5 +1,5 @@
 class Entry {
-  final String date;
+  final DateTime date;
   final String countryName;
   final String countryCode;
   final String producer;

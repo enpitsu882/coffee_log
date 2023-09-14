@@ -43,7 +43,7 @@ class AppState extends ChangeNotifier {
           _entries = {};
           for (final document in snapshot.docs) {
             _entries[document.id] = Entry(
-              date: document.data()['date'] as String,
+              date: document.data()['date'].toDate() as DateTime,
               countryName: document.data()['countryName'] as String,
               countryCode: document.data()['countryCode'] as String,
               producer: document.data()['producer'] as String,
@@ -80,8 +80,7 @@ class AppState extends ChangeNotifier {
     final String docId = entries.doc().id;
 
     entries.doc(docId).set(<String, dynamic>{
-      'date':
-          '${DateTime.now().year}/${DateTime.now().month}/${DateTime.now().day}',
+      'date': Timestamp.fromDate(DateTime.now()),
       'countryName': '未選択',
       'countryCode': 'XX',
       'producer': '未選択',
@@ -120,7 +119,7 @@ class AppState extends ChangeNotifier {
         .collection('entries');
 
     entries.doc(docId).update(<String, dynamic>{
-      'date': entry.date,
+      'date': Timestamp.fromDate(entry.date),
       'countryName': entry.countryName,
       'countryCode': entry.countryCode,
       'producer': entry.producer,
