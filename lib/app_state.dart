@@ -38,6 +38,7 @@ class AppState extends ChangeNotifier {
             .collection('users')
             .doc(user.uid.toString())
             .collection('entries')
+            .orderBy('date', descending: true)
             .snapshots()
             .listen((snapshot) {
           _entries = {};
