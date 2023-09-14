@@ -79,8 +79,7 @@ class App extends StatelessWidget {
               path: 'detail/:entryId',
               builder: (context, state) {
                 String? params = state.pathParameters['entryId'];
-                Entry? entry = Provider.of<AppState>(context, listen: false)
-                    .entries[params];
+                Entry? entry = Provider.of<AppState>(context).entries[params];
                 if (params == null || entry == null) {
                   return Scaffold(
                     appBar: AppBar(
