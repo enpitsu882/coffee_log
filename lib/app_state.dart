@@ -106,4 +106,27 @@ class AppState extends ChangeNotifier {
 
     entries.doc(docId).delete();
   }
+
+  Future<void> updateEntry(String docId, Entry entry) async {
+    if (_user == null) {
+      throw Exception('Must be logged in');
+    }
+
+    final entries = FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.uid.toString())
+        .collection('entries');
+
+    entries.doc(docId).update(<String, dynamic>{
+      'date': entry.date,
+      'country': entry.country,
+      'producer': entry.producer,
+      'roastLevel': entry.roastLevel,
+      'mesh': entry.mesh,
+      'processing': entry.processing,
+      'variety': entry.variety,
+      'extracting': entry.extracting,
+      'comment': entry.comment,
+    });
+  }
 }

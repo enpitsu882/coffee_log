@@ -62,7 +62,7 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 
-  void _confirm(BuildContext context) {
+  Future<void> _confirm(BuildContext context) async {
     Entry entry = Entry(
       date: widget.entry.date,
       country: widget.entry.country,
@@ -86,8 +86,9 @@ class _DetailScreenState extends State<DetailScreen> {
           ? commentController.text
           : widget.entry.comment,
     );
-    // TODO: 入力されたデータをfirestoreに上書き保存する
-    context.go('/list');
+    await Provider.of<AppState>(context, listen: false)
+        .updateEntry(widget.entryId, entry);
+    if (context.mounted) context.go('/list');
   }
 
   @override
