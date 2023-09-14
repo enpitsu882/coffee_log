@@ -1,3 +1,4 @@
+import 'package:coffee_log/entry.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:firebase_ui_localizations/firebase_ui_localizations.dart';
@@ -78,14 +79,16 @@ class App extends StatelessWidget {
               path: 'detail/:entryId',
               builder: (context, state) {
                 String? params = state.pathParameters['entryId'];
-                if (params == null) {
+                Entry? entry = Provider.of<AppState>(context, listen: false)
+                    .entries[params];
+                if (params == null || entry == null) {
                   return Scaffold(
                     appBar: AppBar(
                       title: const Text('ページが見つかりません'),
                     ),
                   );
                 }
-                return DetailScreen(entryId: params);
+                return DetailScreen(entryId: params, entry: entry);
               },
             ),
           ],
