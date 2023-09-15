@@ -21,6 +21,12 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
+  late List<String> nameFieldString = [
+    widget.entry.countryName,
+    widget.entry.producer,
+    widget.entry.variety,
+    widget.entry.processing,
+  ];
   DateTime? selectedDate;
   Country? selectedCountry;
   late TextEditingController producerController =
@@ -37,6 +43,12 @@ class _DetailScreenState extends State<DetailScreen> {
       TextEditingController(text: widget.entry.extracting);
   late TextEditingController commentController =
       TextEditingController(text: widget.entry.comment);
+
+  void _changeNameFieldString(String text, int fieldNum) {
+    setState(() {
+      nameFieldString[fieldNum] = text;
+    });
+  }
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -62,6 +74,7 @@ class _DetailScreenState extends State<DetailScreen> {
       onSelect: (Country country) {
         setState(() {
           selectedCountry = country;
+          nameFieldString[0] = country.nameLocalized!;
         });
       },
     );
@@ -140,7 +153,9 @@ class _DetailScreenState extends State<DetailScreen> {
             child: Form(
               child: Column(
                 children: [
-                  NameField(),
+                  NameField(
+                    nameFieldString: nameFieldString,
+                  ),
                   Row(
                     children: [
                       DateField(
@@ -156,7 +171,11 @@ class _DetailScreenState extends State<DetailScreen> {
                       ),
                     ],
                   ),
-                  ProducerField(controller: producerController),
+                  ProducerField(
+                    controller: producerController,
+                    nameFieldString: nameFieldString,
+                    changeNameFieldString: _changeNameFieldString,
+                  ),
                   Row(
                     children: [
                       RoastLevelField(controller: roastLevelController),
@@ -165,8 +184,16 @@ class _DetailScreenState extends State<DetailScreen> {
                   ),
                   Row(
                     children: [
-                      ProcessingField(controller: processingController),
-                      VarietyField(controller: varietyController),
+                      ProcessingField(
+                        controller: processingController,
+                        nameFieldString: nameFieldString,
+                        changeNameFieldString: _changeNameFieldString,
+                      ),
+                      VarietyField(
+                        controller: varietyController,
+                        nameFieldString: nameFieldString,
+                        changeNameFieldString: _changeNameFieldString,
+                      ),
                     ],
                   ),
                   ExtractingField(controller: extractingController),

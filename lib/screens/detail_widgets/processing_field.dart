@@ -6,9 +6,13 @@ class ProcessingField extends StatelessWidget {
   const ProcessingField({
     super.key,
     required this.controller,
+    required this.nameFieldString,
+    required this.changeNameFieldString,
   });
 
   final TextEditingController controller;
+  final List<String> nameFieldString;
+  final Function changeNameFieldString;
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +32,9 @@ class ProcessingField extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
                 decoration: const InputDecoration(border: InputBorder.none),
+                onChanged: (text) {
+                  changeNameFieldString(text, 3);
+                },
               ),
             ),
           ],
