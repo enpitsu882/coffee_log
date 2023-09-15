@@ -112,25 +112,13 @@ class _DetailScreenState extends State<DetailScreen> {
       date: selectedDate ?? widget.entry.date,
       countryName: selectedCountry?.nameLocalized ?? widget.entry.countryName,
       countryCode: selectedCountry?.countryCode ?? widget.entry.countryCode,
-      producer: producerController.text != ''
-          ? producerController.text
-          : widget.entry.producer,
-      roastLevel: roastLevelController.text != ''
-          ? roastLevelController.text
-          : widget.entry.roastLevel,
-      mesh: meshController.text != '' ? meshController.text : widget.entry.mesh,
-      processing: processingController.text != ''
-          ? processingController.text
-          : widget.entry.processing,
-      variety: varietyController.text != ''
-          ? varietyController.text
-          : widget.entry.variety,
-      extracting: extractingController.text != ''
-          ? extractingController.text
-          : widget.entry.extracting,
-      comment: commentController.text != ''
-          ? commentController.text
-          : widget.entry.comment,
+      producer: producerController.text,
+      roastLevel: roastLevelController.text,
+      mesh: meshController.text,
+      processing: processingController.text,
+      variety: varietyController.text,
+      extracting: extractingController.text,
+      comment: commentController.text,
     );
     await Provider.of<AppState>(context, listen: false)
         .updateEntry(widget.entryId, entry);

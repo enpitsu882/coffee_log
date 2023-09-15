@@ -38,14 +38,26 @@ class NameField extends StatelessWidget {
                   color: Theme.of(context).colorScheme.onPrimary,
                 ),
                 textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
               ),
               Text(
-                '${nameFieldString[1]}　${nameFieldString[2]}　${nameFieldString[3]}',
+                (nameFieldString[1] == '' &&
+                        nameFieldString[2] == '' &&
+                        nameFieldString[3] == '')
+                    ? '未選択'
+                    : ((nameFieldString[1] == ''
+                            ? ''
+                            : '${nameFieldString[1]}　') +
+                        (nameFieldString[2] == ''
+                            ? ''
+                            : '${nameFieldString[2]}　') +
+                        nameFieldString[3]),
                 style: TextStyle(
                   fontSize: 16,
                   color: Theme.of(context).colorScheme.onPrimary,
                 ),
                 textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),

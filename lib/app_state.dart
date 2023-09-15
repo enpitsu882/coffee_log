@@ -84,12 +84,12 @@ class AppState extends ChangeNotifier {
       'date': Timestamp.fromDate(DateTime.now()),
       'countryName': '未選択',
       'countryCode': 'XX',
-      'producer': '未選択',
-      'roastLevel': '未選択',
-      'mesh': '未選択',
-      'processing': '未選択',
-      'variety': '未選択',
-      'extracting': '未選択',
+      'producer': '',
+      'roastLevel': '',
+      'mesh': '',
+      'processing': '',
+      'variety': '',
+      'extracting': '',
       'comment': '',
     });
 

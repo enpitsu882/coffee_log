@@ -89,14 +89,19 @@ class _ListItem extends StatelessWidget {
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(entry.countryName),
-          Wrap(
-            spacing: 12,
-            children: [
-              Text(entry.producer),
-              Text(entry.variety),
-              Text(entry.processing),
-            ],
+          Text(
+            entry.countryName,
+            overflow: TextOverflow.ellipsis,
+          ),
+          Text(
+            (entry.producer == '' &&
+                    entry.variety == '' &&
+                    entry.processing == '')
+                ? '未選択'
+                : ((entry.producer == '' ? '' : '${entry.producer}　') +
+                    (entry.variety == '' ? '' : '${entry.variety}　') +
+                    entry.processing),
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),
