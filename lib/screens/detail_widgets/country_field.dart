@@ -28,9 +28,8 @@ class CountryField extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 10, bottom: 5),
-            child: Flag.fromCode(
-              FlagsCode.values
-                  .byName(selectedCountry?.countryCode ?? countryCode),
+            child: Flag.fromString(
+              selectedCountry?.countryCode ?? countryCode,
               height: 70,
             ),
           ),
