@@ -1,3 +1,4 @@
+import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -80,7 +81,11 @@ class _ListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: const Icon(Icons.coffee),
+      leading: Flag.fromString(
+        entry.countryCode,
+        height: 100,
+        width: 50,
+      ),
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
