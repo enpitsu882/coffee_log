@@ -74,21 +74,24 @@ class App extends StatelessWidget {
             GoRoute(
               path: 'list',
               builder: (context, state) => const ListScreen(),
-            ),
-            GoRoute(
-              path: 'detail/:entryId',
-              builder: (context, state) {
-                String? params = state.pathParameters['entryId'];
-                Entry? entry = Provider.of<AppState>(context).entries[params];
-                if (params == null || entry == null) {
-                  return Scaffold(
-                    appBar: AppBar(
-                      title: const Text('ページが見つかりません'),
-                    ),
-                  );
-                }
-                return DetailScreen(entryId: params, entry: entry);
-              },
+              routes: [
+                GoRoute(
+                  path: 'detail/:entryId',
+                  builder: (context, state) {
+                    String? params = state.pathParameters['entryId'];
+                    Entry? entry =
+                        Provider.of<AppState>(context).entries[params];
+                    if (params == null || entry == null) {
+                      return Scaffold(
+                        appBar: AppBar(
+                          title: const Text('ページが見つかりません'),
+                        ),
+                      );
+                    }
+                    return DetailScreen(entryId: params, entry: entry);
+                  },
+                ),
+              ],
             ),
           ],
         ),

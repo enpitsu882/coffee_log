@@ -59,7 +59,7 @@ class _FloatingActionButton extends StatelessWidget {
       onPressed: () async {
         String entryId =
             await Provider.of<AppState>(context, listen: false).addEntry();
-        if (context.mounted) context.go('/detail/$entryId');
+        if (context.mounted) context.go('/list/detail/$entryId');
       },
       shape: const CircleBorder(),
       child: const Icon(Icons.add),
@@ -108,7 +108,7 @@ class _ListItem extends StatelessWidget {
       trailing:
           Text('${entry.date.year}/${entry.date.month}/${entry.date.day}'),
       onTap: () {
-        context.go('/detail/$entryId');
+        context.go('/list/detail/$entryId');
       },
       tileColor: index % 2 == 0 ? Theme.of(context).colorScheme.primary : null,
     );
