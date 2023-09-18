@@ -16,6 +16,10 @@ class StartScreen extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            const Icon(
+              Icons.coffee,
+              size: 300,
+            ),
             Text(
               'Coffee Log',
               style: Theme.of(context).textTheme.headlineMedium,
@@ -23,9 +27,6 @@ class StartScreen extends StatelessWidget {
             Consumer<AppState>(
               builder: (context, appState, _) => Column(
                 children: [
-                  if (appState.user != null) ...[
-                    const Text('ようこそ'),
-                  ],
                   RichText(
                     text: TextSpan(
                       text: 'はじめる',
