@@ -43,6 +43,15 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       leading: const Icon(Icons.filter_list_alt),
       title: const Text('記録'),
+      actions: [
+        TextButton(
+          child: const Text('ログアウト'),
+          onPressed: () async {
+            await Provider.of<AppState>(context, listen: false).signout();
+            if (context.mounted) context.go('/signin');
+          },
+        ),
+      ],
     );
   }
 

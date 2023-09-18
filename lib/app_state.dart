@@ -132,4 +132,8 @@ class AppState extends ChangeNotifier {
       'comment': entry.comment,
     });
   }
+
+  Future<void> signout() async {
+    FirebaseAuth.instance.signOut();
+  }
 }
