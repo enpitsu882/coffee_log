@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import 'app_state.dart';
+import 'screens/calendar_screen.dart';
 import 'screens/detail_screen.dart';
 import 'screens/list_screen.dart';
 import 'screens/start_screen.dart';
@@ -92,6 +93,10 @@ class App extends StatelessWidget {
                   },
                 ),
               ],
+            ),
+            GoRoute(
+              path: 'calender',
+              builder: (context, state) => const CalenderScreen(),
             ),
           ],
         ),
