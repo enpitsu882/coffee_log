@@ -44,6 +44,16 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
       leading: const Icon(Icons.filter_list_alt),
       title: const Text('記録'),
       actions: [
+        IconButton(
+          onPressed: () {
+            context.go('/calender');
+          },
+          icon: const Icon(Icons.calendar_month),
+        ),
+        IconButton(
+          onPressed: () {},
+          icon: const Icon(Icons.format_list_bulleted),
+        ),
         TextButton(
           child: const Text('ログアウト'),
           onPressed: () async {
